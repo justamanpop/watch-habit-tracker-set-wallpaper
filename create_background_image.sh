@@ -3,9 +3,21 @@ x0=50
 y0=50
 x1=500
 y1=425
+
+xIncrement=75
+yIncrement=75
+
+rowCount=5
+columnCount=6
+
 textX=30
 
-#clean up calculations later, get it working first
+MISSION_COUNT=$@
+echo "Mission count is $MISSION_COUNT"
+
+#TODO: put date numbers inside squares, fill up squares with color based on passed in mission count
+
+#draw grid
 magick -size 550x450 canvas:white  -fill white -stroke black \
  -draw "line $x0,$y0 $x1,$y0" `# horizontal lines` \
  -draw "line $x0,125 $x1,125" \
@@ -24,4 +36,7 @@ magick -size 550x450 canvas:white  -fill white -stroke black \
  -draw "text $textX,155 '7'" \
  -draw "text $textX,230 '13'" \
  -draw "text $textX,305 '20'" \
- -draw "text $textX,385 '27'" /usr/share/backgrounds/cosmic/tracker.png 
+ -draw "text $textX,385 '27'" \
+ -draw "text $textX,400 'AY'" `#color fills` \
+ -draw "text $textX,415 'LAMO'" /home/anishs/Desktop/cycles/tracker.png
+
