@@ -7,11 +7,13 @@ const cycleCsvFolder = path.join(home, 'Desktop/cycles')
 const files = fs.readdirSync(cycleCsvFolder)
 
 const yearMonth = new Date().toISOString().slice(0, 7).replace('-', '');
-const currentCycleCsv = files.find(f => f.startsWith(`${yearMonth}`) && f.endsWith('.csv'))
+const cycle = parseInt(process.argv[2])
+const currentCycleCsv = files.find(f => f.startsWith(`${yearMonth}`) && f.endsWith(`c${cycle}.csv`))
 if (!currentCycleCsv) {
 	//if no CSV found, put all days as blank
 	const daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-	const entries = Array(daysInCurrentMonth).fill('EMPTY')
+	const entries = Array(daysInCurrentMonth).fill('0')
+	console.log(entries)
 }
 
 const contents = fs.readFileSync(path.join(cycleCsvFolder, currentCycleCsv), 'utf8')
