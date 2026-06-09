@@ -2,21 +2,21 @@
 x0=50
 y0=50
 x1=500
-y1=425
+y1=500
 
 xIncrement=75
 yIncrement=75
 
-rowCount=5
+rowCount=6
 columnCount=6
+maxDays=31
 
 textX=30
 
 MISSION_COUNT=$@
 echo "Mission count is $MISSION_COUNT"
 
-#TODO: put date numbers inside squares, fill up squares with color based on passed in mission count
-
+#TODO: fill up squares with color based on passed in mission count
 
 horizontalLines=()
 for i in $(seq 0 $rowCount)
@@ -32,20 +32,29 @@ do
 	verticalLines+=("-draw" "line $x,$y0 $x,$y1")
 done
 
+dayNumbers=()
+for i in $(seq 0 $((rowCount -1)))
+do
+	for j in $(seq 0 $((columnCount -1)))
+	do
+		x=$((x0 + i*xIncrement + 15))
+		y=$((y0 + j*yIncrement + 15))
+		day=$((j*6 + i + 1))
+		if [ "$day" -le "$maxDays" ]; then
+			dayNumbers+=("-draw" "text $x,$y '$day'")
+		fi
+	done
+done
+
 finalCommand=(
     magick 
-    -size 550x450 
+    -size 550x550 
     canvas:white 
     -fill white 
     -stroke black 
     "${horizontalLines[@]}" 
     "${verticalLines[@]}" \
- -draw "text $textX,80 '1'" `#date numbers` \
- -draw "text $textX,155 '7'" \
- -draw "text $textX,230 '13'" \
- -draw "text $textX,305 '20'" \
- -draw "text $textX,385 '27'" \
- -draw "text $textX,400 'AY'" `#color fills` \
- -draw "text $textX,415 'LAMO'" /home/anishs/Desktop/cycles/tracker.png
+    "${dayNumbers[@]}" /home/anishs/Desktop/cycles/tracker.png
+ # -draw "text $textX,415 'LAMO'" /home/anishs/Desktop/cycles/tracker.png
 )
 "${finalCommand[@]}"

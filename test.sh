@@ -1,11 +1,13 @@
 #!/bin/bash
-rowCount=5
+rowCount=6
 columnCount=6
+
+maxDays=31
 
 x0=50
 y0=50
 x1=500
-y1=425
+y1=500
 
 xIncrement=75
 yIncrement=75
@@ -25,14 +27,33 @@ do
 	verticalLines+=("-draw" "line $x,$y0 $x,$y1")
 done
 
+dayNumbers=()
+for i in $(seq 0 $((rowCount -1)))
+do
+	for j in $(seq 0 $((columnCount -1)))
+	do
+		x=$((x0 + i*xIncrement + 15))
+		y=$((y0 + j*yIncrement + 15))
+		day=$((j*6 + i + 1))
+
+		if [ "$day" -le "$maxDays" ]; then
+			dayNumbers+=("-draw" "text $x,$y '$day'")
+		fi
+	done
+done
+
 finalCommand=(
     magick 
-    -size 550x450 
+    -size 550x550 
     canvas:white 
     -fill white 
     -stroke black 
     "${horizontalLines[@]}" 
     "${verticalLines[@]}" 
+    "${dayNumbers[@]}" 
     test.png
 )
+
+
+# echo "${dayNumbers[@]}"
 "${finalCommand[@]}"
