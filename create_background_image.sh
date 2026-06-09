@@ -22,8 +22,6 @@ get_color_of_result() {
     *)  echo "white" ;;
   esac
 }
-#TODO: fill up squares with color based on passed in mission count, add heading with month year to top of img, make node script consider cycle number passed in
-
 
 rectangles=()
 dayNumbers=()
@@ -51,6 +49,7 @@ do
 	done
 done
 
+heading=`date +"%B %Y"`
 
 finalCommand=(
     magick 
@@ -58,6 +57,7 @@ finalCommand=(
     canvas:white 
     -fill white 
     -stroke black 
+    -draw "text $((y1/2)),$((x0 - 15)) '$heading'"
     "${rectangles[@]}" 
     "${dayNumbers[@]}" /home/anishs/Desktop/cycles/tracker.png
 )
