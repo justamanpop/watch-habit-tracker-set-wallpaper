@@ -11,7 +11,6 @@ rowCount=6
 columnCount=6
 
 MISSION_RESULTS=("$@")
-echo "${MISSION_RESULTS[@]}"
 get_color_of_result() {
   case "$1" in
     0)  echo "white" ;;
@@ -24,9 +23,9 @@ get_color_of_result() {
 
 rectangles=()
 dayNumbers=()
-for row in $(seq 0 $((rowCount -1)))
+for col in $(seq 0 $((columnCount -1)))
 do
-	for col in $(seq 0 $((columnCount -1)))
+	for row in $(seq 0 $((rowCount -1)))
 	do
 		day=$((col*6 + row + 1))
 		if [ "$day" -le "${#MISSION_RESULTS[@]}" ]; then
@@ -34,8 +33,8 @@ do
 			rectY0=$((y0 + col*yIncrement))
 			rectX1=$((rectX0 + xIncrement))
 			rectY1=$((rectY0 + yIncrement))
-			dayResult="${MISSION_RESULTS[$((day - 1))]}"
 
+			dayResult="${MISSION_RESULTS[$((day - 1))]}"
 			color=$(get_color_of_result $dayResult)
 
 			rectangles+=("-fill" "$color" "-draw" "rectangle $rectX0,$rectY0 $rectX1,$rectY1")
