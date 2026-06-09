@@ -4,4 +4,4 @@
 - create_background_image.sh -> creates the background image png file with calendar grid
 
 ### Command to start watch
-./watch_file.sh "$HOME/development/one_shots/watch_ods/test.txt /home/anishs/development/one_shots/watch_ods/update_background_image_tracker.sh"
+./watch_file.sh "$HOME/development/one_shots/watch_ods/test.txt" "$HOME/development/one_shots/watch_ods/update_background_image_tracker.sh"
