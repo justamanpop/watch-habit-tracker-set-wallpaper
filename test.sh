@@ -12,6 +12,7 @@ y1=500
 xIncrement=75
 yIncrement=75
 
+MISSION_RESULTS=("$@")
 
 rectangles=()
 for row in $(seq 0 $((rowCount -1)))
@@ -26,24 +27,9 @@ do
 
 		numX=$((x0 + row*xIncrement + 15))
 		numY=$((y0 + col*yIncrement + 15))
-		day=$((row*6 + col + 1))
+		day=$((col*6 + row + 1))
 		if [ "$day" -le "$maxDays" ]; then
 			dayNumbers+=("-draw" "text $numX,$numY '$day'")
-		fi
-	done
-done
-
-dayNumbers=()
-for i in $(seq 0 $((rowCount -1)))
-do
-	for j in $(seq 0 $((columnCount -1)))
-	do
-		x=$((x0 + i*xIncrement + 15))
-		y=$((y0 + j*yIncrement + 15))
-		day=$((j*6 + i + 1))
-
-		if [ "$day" -le "$maxDays" ]; then
-			dayNumbers+=("-draw" "text $x,$y '$day'")
 		fi
 	done
 done
@@ -60,5 +46,5 @@ finalCommand=(
 )
 
 
-# echo "${dayNumbers[@]}"
+echo "${finalCommand[@]}"
 "${finalCommand[@]}"
