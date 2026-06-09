@@ -17,26 +17,35 @@ echo "Mission count is $MISSION_COUNT"
 
 #TODO: put date numbers inside squares, fill up squares with color based on passed in mission count
 
-#draw grid
-magick -size 550x450 canvas:white  -fill white -stroke black \
- -draw "line $x0,$y0 $x1,$y0" `# horizontal lines` \
- -draw "line $x0,125 $x1,125" \
- -draw "line $x0,200 $x1,200" \
- -draw "line $x0,275 $x1,275" \
- -draw "line $x0,350 $x1,350" \
- -draw "line $x0,$y1 $x1,$y1" \
- -draw "line $x0,$y0 $x0,$y1" `# vertical lines` \
- -draw "line 125,$y0 125,$y1" \
- -draw "line 200,$y0 200,$y1" \
- -draw "line 275,$y0 275,$y1" \
- -draw "line 350,$y0 350,$y1" \
- -draw "line 425,$y0 425,$y1" \
- -draw "line $x1,$y0 $x1,$y1" \
+
+horizontalLines=()
+for i in $(seq 0 $rowCount)
+do
+	y=$((y0+i*yIncrement))
+	horizontalLines+=("-draw" "line $x0,$y $x1,$y")
+done
+
+verticalLines=()
+for i in $(seq 0 $columnCount)
+do
+	x=$((x0+i*xIncrement))
+	verticalLines+=("-draw" "line $x,$y0 $x,$y1")
+done
+
+finalCommand=(
+    magick 
+    -size 550x450 
+    canvas:white 
+    -fill white 
+    -stroke black 
+    "${horizontalLines[@]}" 
+    "${verticalLines[@]}" \
  -draw "text $textX,80 '1'" `#date numbers` \
  -draw "text $textX,155 '7'" \
  -draw "text $textX,230 '13'" \
  -draw "text $textX,305 '20'" \
  -draw "text $textX,385 '27'" \
  -draw "text $textX,400 'AY'" `#color fills` \
- -draw "text $textX,415 'LAMO'" /home/anishs/Desktop/cycles/tracker.png
-
+ -draw "text $textX,415 'LAMO'" test.png
+)
+"${finalCommand[@]}"
