@@ -12,19 +12,25 @@ y1=500
 xIncrement=75
 yIncrement=75
 
-horizontalLines=()
-for i in $(seq 0 $rowCount)
-do
-	y=$((y0+i*yIncrement))
-	horizontalLines+=("-draw" "line $x0,$y $x1,$y")
-done
 
-
-verticalLines=()
-for i in $(seq 0 $columnCount)
+rectangles=()
+for row in $(seq 0 $((rowCount -1)))
 do
-	x=$((x0+i*xIncrement))
-	verticalLines+=("-draw" "line $x,$y0 $x,$y1")
+	for col in $(seq 0 $((columnCount -1)))
+	do
+		rectX0=$((x0 + row*xIncrement))
+		rectY0=$((y0 + col*yIncrement))
+		rectX1=$((rectX0 + xIncrement))
+		rectY1=$((rectY0 + yIncrement))
+		rectangles+=("-draw" "rectangle $rectX0,$rectY0 $rectX1,$rectY1")
+
+		numX=$((x0 + row*xIncrement + 15))
+		numY=$((y0 + col*yIncrement + 15))
+		day=$((row*6 + col + 1))
+		if [ "$day" -le "$maxDays" ]; then
+			dayNumbers+=("-draw" "text $numX,$numY '$day'")
+		fi
+	done
 done
 
 dayNumbers=()
@@ -48,8 +54,7 @@ finalCommand=(
     canvas:white 
     -fill white 
     -stroke black 
-    "${horizontalLines[@]}" 
-    "${verticalLines[@]}" 
+    "${rectangles[@]}" 
     "${dayNumbers[@]}" 
     test.png
 )

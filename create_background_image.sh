@@ -11,40 +11,33 @@ rowCount=6
 columnCount=6
 maxDays=31
 
-textX=30
-
 MISSION_COUNT=$@
 echo "Mission count is $MISSION_COUNT"
 
-#TODO: fill up squares with color based on passed in mission count
+#TODO: fill up squares with color based on passed in mission count, add heading with month year to top of img
 
-horizontalLines=()
-for i in $(seq 0 $rowCount)
-do
-	y=$((y0+i*yIncrement))
-	horizontalLines+=("-draw" "line $x0,$y $x1,$y")
-done
 
-verticalLines=()
-for i in $(seq 0 $columnCount)
-do
-	x=$((x0+i*xIncrement))
-	verticalLines+=("-draw" "line $x,$y0 $x,$y1")
-done
-
+rectangles=()
 dayNumbers=()
-for i in $(seq 0 $((rowCount -1)))
+for row in $(seq 0 $((rowCount -1)))
 do
-	for j in $(seq 0 $((columnCount -1)))
+	for col in $(seq 0 $((columnCount -1)))
 	do
-		x=$((x0 + i*xIncrement + 15))
-		y=$((y0 + j*yIncrement + 15))
-		day=$((j*6 + i + 1))
+		rectX0=$((x0 + row*xIncrement))
+		rectY0=$((y0 + col*yIncrement))
+		rectX1=$((rectX0 + xIncrement))
+		rectY1=$((rectY0 + yIncrement))
+		rectangles+=("-draw" "rectangle $rectX0,$rectY0 $rectX1,$rectY1")
+
+		numX=$((x0 + row*xIncrement + 15))
+		numY=$((y0 + col*yIncrement + 15))
+		day=$((col*6 + row + 1))
 		if [ "$day" -le "$maxDays" ]; then
-			dayNumbers+=("-draw" "text $x,$y '$day'")
+			dayNumbers+=("-draw" "text $numX,$numY '$day'")
 		fi
 	done
 done
+
 
 finalCommand=(
     magick 
@@ -52,9 +45,7 @@ finalCommand=(
     canvas:white 
     -fill white 
     -stroke black 
-    "${horizontalLines[@]}" 
-    "${verticalLines[@]}" \
+    "${rectangles[@]}" 
     "${dayNumbers[@]}" /home/anishs/Desktop/cycles/tracker.png
- # -draw "text $textX,415 'LAMO'" /home/anishs/Desktop/cycles/tracker.png
 )
 "${finalCommand[@]}"
