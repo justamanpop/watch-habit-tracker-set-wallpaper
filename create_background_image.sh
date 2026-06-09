@@ -9,7 +9,6 @@ yIncrement=75
 
 rowCount=6
 columnCount=6
-maxDays=31
 
 MISSION_RESULTS=("$@")
 echo "${MISSION_RESULTS[@]}"
@@ -30,20 +29,19 @@ do
 	for col in $(seq 0 $((columnCount -1)))
 	do
 		day=$((col*6 + row + 1))
+		if [ "$day" -le "${#MISSION_RESULTS[@]}" ]; then
+			rectX0=$((x0 + row*xIncrement))
+			rectY0=$((y0 + col*yIncrement))
+			rectX1=$((rectX0 + xIncrement))
+			rectY1=$((rectY0 + yIncrement))
+			dayResult="${MISSION_RESULTS[$((day - 1))]}"
 
-		rectX0=$((x0 + row*xIncrement))
-		rectY0=$((y0 + col*yIncrement))
-		rectX1=$((rectX0 + xIncrement))
-		rectY1=$((rectY0 + yIncrement))
-		dayResult="${MISSION_RESULTS[$((day - 1))]}"
+			color=$(get_color_of_result $dayResult)
 
-		color=$(get_color_of_result $dayResult)
+			rectangles+=("-fill" "$color" "-draw" "rectangle $rectX0,$rectY0 $rectX1,$rectY1")
 
-		rectangles+=("-fill" "$color" "-draw" "rectangle $rectX0,$rectY0 $rectX1,$rectY1")
-
-		numX=$((x0 + row*xIncrement + 15))
-		numY=$((y0 + col*yIncrement + 15))
-		if [ "$day" -le "$maxDays" ]; then
+			numX=$((x0 + row*xIncrement + 15))
+			numY=$((y0 + col*yIncrement + 15))
 			dayNumbers+=("-draw" "text $numX,$numY '$day'")
 		fi
 	done
