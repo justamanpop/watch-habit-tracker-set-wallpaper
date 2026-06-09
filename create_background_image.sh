@@ -46,6 +46,6 @@ finalCommand=(
  -draw "text $textX,305 '20'" \
  -draw "text $textX,385 '27'" \
  -draw "text $textX,400 'AY'" `#color fills` \
- -draw "text $textX,415 'LAMO'" test.png
+ -draw "text $textX,415 'LAMO'" /home/anishs/Desktop/cycles/tracker.png
 )
 "${finalCommand[@]}"
