@@ -16,6 +16,7 @@ if (!currentCycleCsv) {
 	//if no CSV found, put all days as blank
 	const entries = Array(daysInCurrentMonth).fill('0')
 	console.log(entries)
+	process.exit(0);
 }
 
 const contents = fs.readFileSync(path.join(cycleCsvFolder, currentCycleCsv), 'utf8')
