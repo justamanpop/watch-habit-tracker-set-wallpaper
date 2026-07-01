@@ -10,7 +10,19 @@ yIncrement=75
 rowCount=6
 columnCount=6
 
+PREVIOUS_MONTH_SUCCESSES=$1
+PREVIOUS_MONTH_HALF_DAYS=$2
+PREVIOUS_MONTH_FAIL_DAYS=$3
+PREVIOUS_MONTH_TOTAL=$4
+shift 4
+
 MISSION_RESULTS=("$@")
+
+echo "1 $PREVIOUS_MONTH_SUCCESSES"
+echo "2 $PREVIOUS_MONTH_HALF_DAYS"
+echo "3 $PREVIOUS_MONTH_TOTAL"
+echo "4 $MISSION_RESULTS"
+
 get_color_of_result() {
   case "$1" in
     0)  echo "white" ;;
@@ -56,6 +68,7 @@ finalCommand=(
     -stroke black 
     -draw "text $((y1/2)),$((x0 - 15)) '$heading'"
     "${rectangles[@]}" 
-    "${dayNumbers[@]}" /home/anishs/Desktop/cycles/tracker.png
+    "${dayNumbers[@]}" 
+    -draw "text $((y1/3)),$((x1 + 25)) 'Previous month:\n Success: $PREVIOUS_MONTH_SUCCESSES/$PREVIOUS_MONTH_TOTAL    Half: $PREVIOUS_MONTH_HALF_DAYS/$PREVIOUS_MONTH_TOTAL    Fail: $PREVIOUS_MONTH_FAIL_DAYS/$PREVIOUS_MONTH_TOTAL'" /home/anishs/Desktop/cycles/tracker.png
 )
 "${finalCommand[@]}"
