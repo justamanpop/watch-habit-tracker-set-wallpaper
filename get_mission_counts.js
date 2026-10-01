@@ -20,7 +20,11 @@ if (!currentCycleCsv) {
 }
 
 const contents = fs.readFileSync(path.join(cycleCsvFolder, currentCycleCsv), 'utf8')
-const lines = contents.split("\n").slice(1, -1)
+const nonHeaderlines = contents.split("\n").slice(1)
+
+const lines = nonHeaderlines.filter(l => l.trim() !== '')
+
+// const lines = contents.split("\n").slice(1, -1)
 
 const padding = Array(daysInCurrentMonth - lines.length).fill('NA,NA')
 const paddedLines = lines.concat(padding)

@@ -59,6 +59,7 @@ do
 done
 
 heading=`date +"%B %Y"`
+echo "sucess days are $PREVIOUS_MONTH_SUCCESSES half are $PREVIOUS_MONTH_HALF_DAYS fails are $PREVIOUS_MONTH_FAIL_DAYS" > /home/anishs/prev.txt
 
 finalCommand=(
     magick 
@@ -69,6 +70,7 @@ finalCommand=(
     -draw "text $((y1/2)),$((x0 - 15)) '$heading'"
     "${rectangles[@]}" 
     "${dayNumbers[@]}" 
-    -draw "text $((y1/3)),$((x1 + 25)) 'Previous month:\n Success: $PREVIOUS_MONTH_SUCCESSES/$PREVIOUS_MONTH_TOTAL    Half: $PREVIOUS_MONTH_HALF_DAYS/$PREVIOUS_MONTH_TOTAL    Fail: $PREVIOUS_MONTH_FAIL_DAYS/$PREVIOUS_MONTH_TOTAL'" /home/anishs/Desktop/cycles/tracker.png
+    -draw "text $((y1/3)),$((x1 + 25)) 'Previous month:\n Success: $PREVIOUS_MONTH_SUCCESSES   Half: $PREVIOUS_MONTH_HALF_DAYS   Failure: $PREVIOUS_MONTH_FAIL_DAYS'" /home/anishs/Desktop/cycles/tracker.png
+    # -draw "text $((y1/3)),$((x1 + 25)) 'Lifetime stats \n Success: $PREVIOUS_MONTH_SUCCESSES   Half: $PREVIOUS_MONTH_HALF_DAYS   Failure: $PREVIOUS_MONTH_FAIL_DAYS'" 
 )
 "${finalCommand[@]}"
