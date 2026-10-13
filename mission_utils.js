@@ -1,6 +1,17 @@
 import fs from 'fs';
 
+/**
+ * Gets total number of success, fail and half days from a month CSV file.
+ * Expects CSV file to be in particular format, else undefined behaviour
+ */
 export function getMissionStatsFromCsv(csvFilePath) {
+	const csvExists = fs.existsSync(csvFilePath);
+	if (!csvExists) {
+		return {
+			totalFail: 0, totalSuccess: 0, totalHalf: 0, totalDays: 0
+		}
+	}
+
 	const contents = fs.readFileSync(csvFilePath, 'utf8')
 	const nonHeaderlines = contents.split("\n").slice(1)
 

@@ -4,7 +4,6 @@
  * Unexpected behaviour if CSV contents are not in expected format.
  */
 import path from 'path';
-import fs from 'fs';
 import { getMissionStatsFromCsv } from './mission_utils.js';
 
 const cycleCsvFolder = process.argv[2];
@@ -15,12 +14,5 @@ date.setDate(1);
 date.setMonth(date.getMonth() - 1);
 const previousYearMonth = date.toISOString().slice(0, 7).replace('-', '');
 
-const files = fs.readdirSync(cycleCsvFolder)
-const prevMonthCycleCsv = files.find(f => f.startsWith(`${previousYearMonth}`) && f.endsWith(`c${cycle}.csv`))
-if (!prevMonthCycleCsv) {
-	console.log('0 0 0 0')
-	process.exit(0);
-}
-
-const stats = getMissionStatsFromCsv(path.join(cycleCsvFolder, prevMonthCycleCsv))
+const stats = getMissionStatsFromCsv(path.join(cycleCsvFolder, `${previousYearMonth}c${cycle}.csv`))
 console.log(`${stats.totalSuccess} ${stats.totalHalf} ${stats.totalFail} ${stats.totalDays}`)
