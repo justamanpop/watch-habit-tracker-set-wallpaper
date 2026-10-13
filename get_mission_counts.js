@@ -1,17 +1,15 @@
-import os from 'os';
 import path from 'path';
 import fs from 'fs';
 
-const now = new Date();
-const daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
-
-const home = os.homedir()
-const cycleCsvFolder = path.join(home, 'Desktop/cycles')
+const cycleCsvFolder = process.argv[2];
+const cycle = parseInt(process.argv[3])
 const files = fs.readdirSync(cycleCsvFolder)
 
-const yearMonth = new Date().toISOString().slice(0, 7).replace('-', '');
-const cycle = parseInt(process.argv[2])
+const now = new Date();
+const yearMonth = now.toISOString().slice(0, 7).replace('-', '');
+const daysInCurrentMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
 const currentCycleCsv = files.find(f => f.startsWith(`${yearMonth}`) && f.endsWith(`c${cycle}.csv`))
+
 if (!currentCycleCsv) {
 	//if no CSV found, put all days as blank
 	const entries = Array(daysInCurrentMonth).fill('0').join(' ')
