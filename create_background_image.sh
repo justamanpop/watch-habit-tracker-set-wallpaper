@@ -10,18 +10,30 @@ yIncrement=75
 rowCount=6
 columnCount=6
 
-PREVIOUS_MONTH_SUCCESSES=$1
+PREVIOUS_MONTH_SUCCESS_DAYS=$1
 PREVIOUS_MONTH_HALF_DAYS=$2
 PREVIOUS_MONTH_FAIL_DAYS=$3
-PREVIOUS_MONTH_TOTAL=$4
-shift 4
+PREVIOUS_MONTH_TOTAL_DAYS=$4
+
+LIFETIME_SUCCESS_DAYS=$5
+LIFETIME_HALF_DAYS=$6
+LIFETIME_FAIL_DAYS=$7
+LIFETIME_TOTAL_DAYS=$8
+
+echo "1 $PREVIOUS_MONTH_SUCCESS_DAYS"
+echo "2 $PREVIOUS_MONTH_HALF_DAYS"
+echo "3 $PREVIOUS_MONTH_FAIL_DAYS"
+echo "4 $PREVIOUS_MONTH_TOTAL_DAYS"
+
+echo "5 $LIFETIME_SUCCESS_DAYS"
+echo "6 $LIFETIME_HALF_DAYS"
+echo "7 $LIFETIME_FAIL_DAYS"
+echo "8 $LIFETIME_TOTAL_DAYS"
+
+shift 8
 
 MISSION_RESULTS=("$@")
 
-echo "1 $PREVIOUS_MONTH_SUCCESSES"
-echo "2 $PREVIOUS_MONTH_HALF_DAYS"
-echo "3 $PREVIOUS_MONTH_TOTAL"
-echo "4 $MISSION_RESULTS"
 
 get_color_of_result() {
   case "$1" in
@@ -59,7 +71,7 @@ do
 done
 
 heading=`date +"%B %Y"`
-echo "sucess days are $PREVIOUS_MONTH_SUCCESSES half are $PREVIOUS_MONTH_HALF_DAYS fails are $PREVIOUS_MONTH_FAIL_DAYS" > /home/anishs/prev.txt
+echo "sucess days are $PREVIOUS_MONTH_SUCCESS_DAYS half are $PREVIOUS_MONTH_HALF_DAYS fails are $PREVIOUS_MONTH_FAIL_DAYS" > /home/anishs/prev.txt
 
 finalCommand=(
     magick 
@@ -70,7 +82,7 @@ finalCommand=(
     -draw "text $((y1/2)),$((x0 - 15)) '$heading'"
     "${rectangles[@]}" 
     "${dayNumbers[@]}" 
-    -draw "text $((y1/3)),$((x1 + 25)) 'Previous month:\n Success: $PREVIOUS_MONTH_SUCCESSES   Half: $PREVIOUS_MONTH_HALF_DAYS   Failure: $PREVIOUS_MONTH_FAIL_DAYS'" /home/anishs/Desktop/cycles/tracker.png
-    # -draw "text $((y1/3)),$((x1 + 25)) 'Lifetime stats \n Success: $PREVIOUS_MONTH_SUCCESSES   Half: $PREVIOUS_MONTH_HALF_DAYS   Failure: $PREVIOUS_MONTH_FAIL_DAYS'" 
+    -draw "text $((y0)),$((x1 + 22)) 'Previous month:\n Success: $PREVIOUS_MONTH_SUCCESS_DAYS   Half: $PREVIOUS_MONTH_HALF_DAYS   Failure: $PREVIOUS_MONTH_FAIL_DAYS'"
+    -draw "text $((y1/2)),$((x1 + 22)) 'Lifetime stats:\n Success: $LIFETIME_SUCCESS_DAYS   Half: $LIFETIME_HALF_DAYS   Failure: $LIFETIME_FAIL_DAYS'" /home/anishs/Desktop/cycles/tracker.png
 )
 "${finalCommand[@]}"
