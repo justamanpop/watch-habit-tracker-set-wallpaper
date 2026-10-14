@@ -4,6 +4,7 @@ import { getMissionStatsFromCsv } from './mission_utils.js';
 
 const cycleCsvFolder = process.argv[2];
 const cycle = parseInt(process.argv[3])
+const forceRecalculate = parseInt(process.argv[4])
 
 const files = fs.readdirSync(cycleCsvFolder)
 const summaryJsonFilePath = path.join(cycleCsvFolder, `c${cycle}Summary.json`)
@@ -22,9 +23,12 @@ let totalFailDays = 0;
 let totalHalfDays = 0;
 let totalDays = 0
 
+const currentYearMonth = new Date().toISOString().slice(0, 7).replace('-', '');
 csvFileNames.forEach(csvFileName => {
 	let stats = summaryJsonParsed[csvFileName];
-	if (!stats) {
+
+	//since current month CSV gets updated with new values, its calculation should always happen to reflect latest
+	if (!stats || csvFileName.includes(currentYearMonth) || forceRecalculate === 1) {
 		stats = summaryJsonParsed[csvFileName] = getMissionStatsFromCsv(path.join(cycleCsvFolder, csvFileName))
 	}
 
